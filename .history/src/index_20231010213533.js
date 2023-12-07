@@ -66,96 +66,57 @@ function Header() {
   ); // CSS in JSX is an object. We have another {} to basically enter JS Mode
 }
 function Menu() {
-  const pizzas = pizzaData;
-  const numPizzas = pizzas.length;
   return (
     <main className="menu">
-      <h2> Our Menu</h2>
-      {numPizzas ? (
-        <>
-          <p>
-            Authentic Italian cuisine. 6 creative dishes to choose from. All
-            from our store oven, all organic, all delicious.
-          </p>
-          <ul className="pizzas">
-            {pizzas.map((pizza) => (
-              <Pizza pizzaObj={pizza} key={pizza.name} /> // Passing in the Props
-            ))}
-          </ul>
-        </>
-      ) : (
-        <p>We're still Working on our Menu. Please comeback later</p>
-      )}
-      {/*
-      yellow {} ABOVE = to enter JS mode
-      Each pizzaObj is a pizza from our pizzaDATA array
-      This object is passed into the pizza function for rendering
-      
-      <Pizza
+      <div>
+        <h2> Our Menu</h2>
+        <Pizza
           name="Pizza Spinaci"
           ingredients="Tomato, Mozarella, Spinach and
         Ricotto Cheese"
           photoName="pizzas/spinaci.jpg"
-          price={10}
+          price="10"
         />
         <Pizza
           name="Pizza Funghi"
           ingredients="Tomato, Mushrooms"
-          price={12}
+          price="12"
           photoName="pizzas/funghi.jpg"
-  /> */}
+        />
+      </div>
     </main>
   );
 }
 
-function Pizza({ pizzaObj }) {
+function Pizza(props) {
   // Receiving props (Properties in function)
-
+  console.log(props);
   return (
-    <li className={`pizza ${pizzaObj.soldOut ? "sold-out" : ""}`}>
-      <img src={pizzaObj.photoName} alt={pizzaObj.name}></img>
+    <div className="pizza">
+      <img src={props.photoName} alt={props.name}></img>
       <div>
-        <h3>{pizzaObj.name}</h3>
-        <p>{pizzaObj.ingredients}</p>
-        <span>{pizzaObj.soldOut ? "SOLD OUT" : pizzaObj.price}</span>
+        <h3>{props.name}</h3>
+        <p>{props.ingredients}</p>;
       </div>
-    </li>
+    </div>
   );
 }
 
 function Footer() {
   const hour = new Date().getHours();
   const openingHour = 8;
-  const closingHour = 24;
-  console.log(hour);
-  const isOpen = hour >= openingHour && hour <= closingHour;
+  const closingHour = 23;
 
-  // If I use  (!isOpen), we don't actually render the footer element
+  const isOpen = hour >= openingHour && hour <= closingHour;
+  console.log(isOpen);
+
   return (
     <footer className="footer">
-      {isOpen ? (
-        <Order closingHour={closingHour} openingHour={openingHour} />
-      ) : (
-        <p>
-          We are happy to welcome you between {openingHour}:00 and {closingHour}
-          :00
-        </p>
-      )}
+      {new Date().toLocaleTimeString()}.We're currently open
     </footer>
   );
 }
 
-function Order({ closingHour, openingHour }) {
-  return (
-    <div className="order">
-      <p>
-        We are open from {openingHour}:00 to {closingHour}:00. Come visit us or
-        order online.
-      </p>
-      <button className="btn">Order</button>
-    </div>
-  );
-}
 // React Version 18 and further
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
