@@ -58,105 +58,85 @@ function App() {
 }
 
 function Header() {
-  const style = {}; // A JS Object
   return (
     <header className="header">
-      <h1 style={style}>Fast React Pizza Co.</h1>
+      <h1>Fast React Pizza Co.</h1>
     </header>
-  ); // CSS in JSX is an object. We have another {} to basically enter JS Mode
+  );
 }
+
 function Menu() {
   const pizzas = pizzaData;
   const numPizzas = pizzas.length;
   return (
     <main className="menu">
-      <h2> Our Menu</h2>
-      {numPizzas ? (
+      <h2>OUR MENU</h2>
+      {numPizzas > 0 ? (
         <>
           <p>
             Authentic Italian cuisine. 6 creative dishes to choose from. All
-            from our store oven, all organic, all delicious.
+            from our stone oven, all organic, all delicious.
           </p>
           <ul className="pizzas">
             {pizzas.map((pizza) => (
-              <Pizza pizzaObj={pizza} key={pizza.name} /> // Passing in the Props
+              <Pizza pizzaObj={pizza} key={pizza.id} />
             ))}
           </ul>
         </>
       ) : (
-        <p>We're still Working on our Menu. Please comeback later</p>
+        <p>We're still working on our menu. Please come back later :</p>
       )}
-      {/*
-      yellow {} ABOVE = to enter JS mode
-      Each pizzaObj is a pizza from our pizzaDATA array
-      This object is passed into the pizza function for rendering
-      
-      <Pizza
-          name="Pizza Spinaci"
-          ingredients="Tomato, Mozarella, Spinach and
-        Ricotto Cheese"
-          photoName="pizzas/spinaci.jpg"
-          price={10}
-        />
-        <Pizza
-          name="Pizza Funghi"
-          ingredients="Tomato, Mushrooms"
-          price={12}
-          photoName="pizzas/funghi.jpg"
-  /> */}
     </main>
   );
 }
-
 function Pizza({ pizzaObj }) {
-  // Receiving props (Properties in function)
+  console.log(pizzaObj);
+
+  // if (pizzaObj.soldOut) return null;
 
   return (
     <li className={`pizza ${pizzaObj.soldOut ? "sold-out" : ""}`}>
-      <img src={pizzaObj.photoName} alt={pizzaObj.name}></img>
+      <img src={pizzaObj.photoName} alt={pizzaObj.name} />
       <div>
         <h3>{pizzaObj.name}</h3>
         <p>{pizzaObj.ingredients}</p>
+
         <span>{pizzaObj.soldOut ? "SOLD OUT" : pizzaObj.price}</span>
       </div>
     </li>
   );
 }
-
 function Footer() {
   const hour = new Date().getHours();
-  const openingHour = 8;
-  const closingHour = 24;
-  console.log(hour);
-  const isOpen = hour >= openingHour && hour <= closingHour;
+  const openHour = 12;
+  const closeHour = 22;
+  const isOpen = hour >= openHour && hour <= closeHour;
 
-  // If I use  (!isOpen), we don't actually render the footer element
   return (
     <footer className="footer">
       {isOpen ? (
-        <Order closingHour={closingHour} openingHour={openingHour} />
+        <Order closeHour={closeHour} openHour={openHour} />
       ) : (
         <p>
-          We are happy to welcome you between {openingHour}:00 and {closingHour}
-          :00
+          We're happy to welcome you between {openHour}:00 and {closeHour}:00.
         </p>
       )}
     </footer>
   );
 }
 
-function Order({ closingHour, openingHour }) {
+function Order({ closeHour, openHour }) {
   return (
     <div className="order">
       <p>
-        We are open from {openingHour}:00 to {closingHour}:00. Come visit us or
-        order online.
+        We're open from {openHour}:00 to {closeHour}:00. Come visit us or order
+        online.
       </p>
       <button className="btn">Order</button>
     </div>
   );
 }
-// React Version 18 and further
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
